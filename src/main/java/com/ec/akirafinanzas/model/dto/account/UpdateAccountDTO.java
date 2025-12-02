@@ -1,7 +1,5 @@
 package com.ec.akirafinanzas.model.dto.account;
 
-import java.math.BigDecimal;
-
 import com.ec.akirafinanzas.model.enums.typeAccountEnum;
 
 import lombok.AllArgsConstructor;
