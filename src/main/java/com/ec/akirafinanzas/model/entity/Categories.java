@@ -2,6 +2,8 @@ package com.ec.akirafinanzas.model.entity;
 
 import org.hibernate.annotations.Comment;
 
+import com.ec.akirafinanzas.auditable.Auditable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,7 +23,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "categories")
-public class Categories {
+public class Categories extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "categorie_id")

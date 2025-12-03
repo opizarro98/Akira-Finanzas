@@ -1,5 +1,6 @@
 package com.ec.akirafinanzas.model.dto.account;
 
+import com.ec.akirafinanzas.model.entity.Person;
 import com.ec.akirafinanzas.model.enums.typeAccountEnum;
 
 import lombok.Getter;
@@ -11,5 +12,6 @@ public class CreateAccountDTO {
     private String accountName;
     private typeAccountEnum type;
     private Double balance;
+    private Person person;
 
 }

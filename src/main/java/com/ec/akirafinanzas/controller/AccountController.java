@@ -11,6 +11,7 @@ import com.ec.akirafinanzas.model.dto.account.CreateAccountDTO;
 import com.ec.akirafinanzas.model.dto.account.UpdateAccountDTO;
 import com.ec.akirafinanzas.service.AccountService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,7 +22,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping("/Create")
-    public ResponseEntity<?> createNewAccount(@RequestBody CreateAccountDTO account) {
+    public ResponseEntity<?> createNewAccount(@Valid @RequestBody CreateAccountDTO account) {
         return ResponseEntity.ok().body(accountService.createAccount(account));
     }
 

@@ -11,6 +11,7 @@ import com.ec.akirafinanzas.model.dto.category.CreateCategoryDTO;
 import com.ec.akirafinanzas.model.dto.category.UpdateCategoryDTO;
 import com.ec.akirafinanzas.service.CategoryService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -21,7 +22,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @PostMapping("/Create")
-    public ResponseEntity<?> createNewCategory(@RequestBody CreateCategoryDTO category) {
+    public ResponseEntity<?> createNewCategory(@Valid @RequestBody CreateCategoryDTO category) {
         return ResponseEntity.ok().body(categoryService.createNewCategory(category));
     }
 
