@@ -1,5 +1,7 @@
 package com.ec.akirafinanzas.service.implement;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ec.akirafinanzas.model.dto.category.CreateCategoryDTO;
@@ -19,6 +21,12 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
+    public List<UpdateCategoryDTO> getAllActiveCategories() {
+        List<Categories> categories = categoryRepository.findAllByActiveTrue();
+        return categoryMapper.toDTOListUpdate(categories);
+    }
+
+    @Override
     public CreateCategoryDTO createNewCategory(CreateCategoryDTO createCategoryDTO) {
         Categories newCategories = categoryMapper.toEntityCreate(createCategoryDTO);
         return categoryMapper.toDTOCreate(categoryRepository.save(newCategories));
@@ -29,6 +37,14 @@ public class CategoryServiceImpl implements CategoryService {
         Categories category = categoryRepository.getReferenceById(updateCategoryDTO.getId());
         category.setName(updateCategoryDTO.getName());
         return categoryMapper.toDTOUpdate(categoryRepository.save(category));
+    }
+
+    @Override
+    public boolean deleteCategory(long id) {
+        Categories category = categoryRepository.getReferenceById(id);
+        category.setActive(false);
+        categoryRepository.save(category);
+        return true;
     }
 
 }

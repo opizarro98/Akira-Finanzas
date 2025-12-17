@@ -33,4 +33,5 @@ public class Categories extends Auditable {
     @Column(nullable = false, name = "Name", length = 25)
     @Comment("Nombre de la categoria")
     private String Name;
+
 }

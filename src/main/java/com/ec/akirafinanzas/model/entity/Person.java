@@ -1,5 +1,7 @@
 package com.ec.akirafinanzas.model.entity;
 
+import java.util.List;
+
 import org.hibernate.annotations.Comment;
 
 import com.ec.akirafinanzas.auditable.Auditable;
@@ -9,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
@@ -51,6 +54,6 @@ public class Person extends Auditable {
     @OneToOne(mappedBy = "person")
     private User user;
 
-    @OneToOne(mappedBy = "person")
-    private Accounts account;
+    @OneToMany(mappedBy = "person")
+    private List<Accounts> account;
 }
