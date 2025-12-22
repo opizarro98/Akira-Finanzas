@@ -2,6 +2,7 @@ package com.ec.akirafinanzas.model.dto.person;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,10 +11,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
-public class CreatePersonDTO {
+@AllArgsConstructor
+@Builder
+public class GetPersonCompleteDTO {
+    @NotNull(message = "id is required")
+    private Long personId;
 
     @NotBlank(message = "firstName is required")
     private String firstName;
@@ -30,5 +33,4 @@ public class CreatePersonDTO {
     private String email;
 
     private String phone;
-
 }

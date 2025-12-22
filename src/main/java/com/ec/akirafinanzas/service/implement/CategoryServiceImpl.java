@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ec.akirafinanzas.model.dto.category.CreateCategoryDTO;
+import com.ec.akirafinanzas.model.dto.category.GetCategoryDTO;
 import com.ec.akirafinanzas.model.dto.category.UpdateCategoryDTO;
 import com.ec.akirafinanzas.model.entity.Categories;
 import com.ec.akirafinanzas.model.mapper.CategoryMapper;
@@ -21,13 +22,15 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<UpdateCategoryDTO> getAllActiveCategories() {
+    public List<GetCategoryDTO> getAllActiveCategories() {
         List<Categories> categories = categoryRepository.findAllByActiveTrue();
         return categoryMapper.toDTOListUpdate(categories);
     }
 
     @Override
     public CreateCategoryDTO createNewCategory(CreateCategoryDTO createCategoryDTO) {
+
+        System.out.println("Esta es la cateoria que llega " + createCategoryDTO);
         Categories newCategories = categoryMapper.toEntityCreate(createCategoryDTO);
         return categoryMapper.toDTOCreate(categoryRepository.save(newCategories));
     }

@@ -2,14 +2,22 @@ package com.ec.akirafinanzas.model.mapper;
 
 import org.mapstruct.Mapper;
 
-import com.ec.akirafinanzas.model.dto.person.createPersonDTO;
+import com.ec.akirafinanzas.model.dto.person.CreatePersonDTO;
+import com.ec.akirafinanzas.model.dto.person.GetPersonCompleteDTO;
+import com.ec.akirafinanzas.model.dto.person.UpdatePersonDTO;
 import com.ec.akirafinanzas.model.entity.Person;
 
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
 
-    createPersonDTO toDTOCreate(Person entity);
+    CreatePersonDTO toDTOCreate(Person entity);
 
-    Person toEntityCreate(createPersonDTO dto);
+    Person toEntityCreate(CreatePersonDTO dto);
+
+    Person toEntityUpdate(UpdatePersonDTO dto);
+
+    UpdatePersonDTO toDTOUpdate(Person entity);
+
+    GetPersonCompleteDTO toDTOComplete(Person entity);
 
 }

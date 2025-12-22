@@ -5,6 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 
 import com.ec.akirafinanzas.model.dto.category.CreateCategoryDTO;
+import com.ec.akirafinanzas.model.dto.category.GetCategoryDTO;
 import com.ec.akirafinanzas.model.dto.category.UpdateCategoryDTO;
 import com.ec.akirafinanzas.model.entity.Categories;
 
@@ -19,5 +20,5 @@ public interface CategoryMapper {
 
     UpdateCategoryDTO toDTOUpdate(Categories entity);
 
-    List<UpdateCategoryDTO> toDTOListUpdate(List<Categories> entities);
+    List<GetCategoryDTO> toDTOListUpdate(List<Categories> entities);
 }

@@ -14,14 +14,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "person")
 public class Person extends Auditable {
 
@@ -50,6 +54,10 @@ public class Person extends Auditable {
     @Column(nullable = false, name = "email", length = 50)
     @Comment("Email de la persona")
     private String email;
+
+    @Column(nullable = false, name = "phone")
+    @Comment("Teléfono de la persona")
+    private String phone;
 
     @OneToOne(mappedBy = "person")
     private User user;

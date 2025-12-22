@@ -1,8 +1,16 @@
 package com.ec.akirafinanzas.service;
 
-import com.ec.akirafinanzas.model.dto.person.createPersonDTO;
+import com.ec.akirafinanzas.model.dto.person.UpdatePersonDTO;
+import com.ec.akirafinanzas.model.dto.person.CreatePersonDTO;
+import com.ec.akirafinanzas.model.dto.person.GetPersonCompleteDTO;
 
 public interface PersonService {
 
-    createPersonDTO createNewPerson(createPersonDTO person);
+    CreatePersonDTO createNewPerson(CreatePersonDTO person);
+
+    UpdatePersonDTO updatePerson(UpdatePersonDTO person);
+
+    Boolean deletePerson(Long id);
+
+    GetPersonCompleteDTO getPersonById(Long id);
 }
