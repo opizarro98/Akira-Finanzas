@@ -1,6 +1,8 @@
 package com.ec.akirafinanzas.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,9 +19,15 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/AccountRest")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*")
 public class AccountController {
 
     private final AccountService accountService;
+
+    @GetMapping("/GetAllActive")
+    public ResponseEntity<?> getAllAccounts() {
+        return ResponseEntity.ok().body(accountService.getAllAccounts());
+    }
 
     @PostMapping("/Create")
     public ResponseEntity<?> createNewAccount(@Valid @RequestBody CreateAccountDTO account) {

@@ -1,8 +1,11 @@
 package com.ec.akirafinanzas.model.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 
 import com.ec.akirafinanzas.model.dto.account.CreateAccountDTO;
+import com.ec.akirafinanzas.model.dto.account.GetActiveAccountsDTO;
 import com.ec.akirafinanzas.model.dto.account.UpdateAccountDTO;
 import com.ec.akirafinanzas.model.entity.Accounts;
 
@@ -16,4 +19,6 @@ public interface AccountMapper {
     Accounts toEntityUpdate(UpdateAccountDTO dto);
 
     UpdateAccountDTO toDTOUpdate(Accounts entity);
+
+    List<GetActiveAccountsDTO> toDTOList(List<Accounts> entities);
 }

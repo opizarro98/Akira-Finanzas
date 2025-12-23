@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateCategoryDTO {
+
     @NotBlank(message = "Name cannot be blank")
-    @NotNull(message = "Name cannot be null")
     private String name;
 }

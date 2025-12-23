@@ -1,8 +1,11 @@
 package com.ec.akirafinanzas.service.implement;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ec.akirafinanzas.model.dto.account.CreateAccountDTO;
+import com.ec.akirafinanzas.model.dto.account.GetActiveAccountsDTO;
 import com.ec.akirafinanzas.model.dto.account.UpdateAccountDTO;
 import com.ec.akirafinanzas.model.entity.Accounts;
 import com.ec.akirafinanzas.model.mapper.AccountMapper;
@@ -19,6 +22,12 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
 
     @Override
+    public List<GetActiveAccountsDTO> getAllAccounts() {
+        List<Accounts> accounts = accountRepository.findAllByActiveTrue();
+        return accountMapper.toDTOList(accounts);
+    }
+
+    @Override
     public CreateAccountDTO createAccount(CreateAccountDTO createAccountDTO) {
         Accounts account = accountMapper.toEntityCreate(createAccountDTO);
         return accountMapper.toDTOCreate(accountRepository.save(account));
@@ -32,4 +41,5 @@ public class AccountServiceImpl implements AccountService {
         account.setType(dto.getType());
         return accountMapper.toDTOUpdate(accountRepository.save(account));
     }
+
 }
