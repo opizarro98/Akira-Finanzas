@@ -30,6 +30,11 @@ public class PersonController {
         return ResponseEntity.ok().body(personService.getPersonById(id));
     }
 
+    @GetMapping("/GetPersonXEmail/{email}")
+    public ResponseEntity<?> getPersonByEmail(@PathVariable String email) {
+        return ResponseEntity.ok().body(personService.getPersonByEmail(email));
+    }
+
     @PostMapping("/Create")
     public ResponseEntity<?> createNewPerson(@Valid @RequestBody CreatePersonDTO person) {
         return ResponseEntity.ok().body(personService.createNewPerson(person));

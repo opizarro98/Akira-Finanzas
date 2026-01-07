@@ -26,6 +26,12 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public GetPersonCompleteDTO getPersonByEmail(String email) {
+        Person person = personRepository.findByEmail(email);
+        return personMapper.toDTOComplete(person);
+    }
+
+    @Override
     public CreatePersonDTO createNewPerson(CreatePersonDTO person) {
         Person newPerson = personMapper.toEntityCreate(person);
         return personMapper.toDTOCreate(personRepository.save(newPerson));

@@ -13,4 +13,6 @@ public interface PersonService {
     Boolean deletePerson(Long id);
 
     GetPersonCompleteDTO getPersonById(Long id);
+
+    GetPersonCompleteDTO getPersonByEmail(String email);
 }
