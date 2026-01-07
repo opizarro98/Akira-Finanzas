@@ -16,5 +16,6 @@ import lombok.Setter;
 public class CreateCategoryDTO {
 
     @NotBlank(message = "Name cannot be blank")
+    @NotNull
     private String name;
 }

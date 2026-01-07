@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.hibernate.annotations.Comment;
 
 import com.ec.akirafinanzas.auditable.Auditable;
+import com.ec.akirafinanzas.model.enums.typeMovementEnum;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,6 +48,10 @@ public class Movements extends Auditable {
     @Column(name = "movement_date")
     @Comment("Fecha del movimiento")
     private LocalDate movementDate;
+
+    @Column(name = "type")
+    @Comment("Tipo de movimeinto de la cuenta ")
+    private typeMovementEnum typeMovementEnum;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id", nullable = false)
