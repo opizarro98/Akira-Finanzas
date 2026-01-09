@@ -6,11 +6,12 @@ import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
@@ -21,6 +22,14 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(NoHandlerFoundException.class)
+    private ResponseEntity<ApiErrorResponse> notFoundException(NoHandlerFoundException ex, WebRequest request) {
+        String endpoint = request.getDescription(false).replace("uri=", "");
+        ApiErrorResponse errorResponse = new ApiErrorResponse(
+                endpoint, ex.getMessage(), HttpStatus.NOT_FOUND.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
