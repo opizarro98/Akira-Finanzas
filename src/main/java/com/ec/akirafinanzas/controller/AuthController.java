@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ec.akirafinanzas.model.dto.authapp.AuthRequestDTO;
 import com.ec.akirafinanzas.model.dto.authapp.AuthResponseDTO;
+import com.ec.akirafinanzas.model.dto.authapp.RegisterRequestDTO;
 import com.ec.akirafinanzas.service.AuthService.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequestDTO dto) {
+    public ResponseEntity<?> register(@RequestBody RegisterRequestDTO dto) {
         return ResponseEntity.ok().body(authService.register(dto));
     }
 

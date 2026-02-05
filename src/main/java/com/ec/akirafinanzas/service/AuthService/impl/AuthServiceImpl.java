@@ -8,7 +8,10 @@ import com.ec.akirafinanzas.error.InvalidCredentialsException;
 import com.ec.akirafinanzas.error.UserAlreadyExistsException;
 import com.ec.akirafinanzas.model.dto.authapp.AuthRequestDTO;
 import com.ec.akirafinanzas.model.dto.authapp.AuthResponseDTO;
+import com.ec.akirafinanzas.model.dto.authapp.RegisterRequestDTO;
+import com.ec.akirafinanzas.model.entity.Person;
 import com.ec.akirafinanzas.model.entity.User;
+import com.ec.akirafinanzas.repository.PersonRepository;
 import com.ec.akirafinanzas.repository.UserRepository;
 import com.ec.akirafinanzas.security.JwtService;
 import com.ec.akirafinanzas.service.AuthService.AuthService;
@@ -20,11 +23,12 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
+    private final PersonRepository personRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     @Override
-    public boolean register(AuthRequestDTO authRequestDTO) {
+    public boolean register(RegisterRequestDTO authRequestDTO) {
         if (authRequestDTO.getUsername() == null || authRequestDTO.getUsername().isBlank()) {
             throw new InvalidAuthDataException("Username is required");
         }
@@ -34,10 +38,23 @@ public class AuthServiceImpl implements AuthService {
         if (userRepository.existsByUsername(authRequestDTO.getUsername())) {
             throw new UserAlreadyExistsException(authRequestDTO.getUsername());
         }
-        User user = new User();
-        user.setUsername(authRequestDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(authRequestDTO.getPassword()));
+        Person person = Person.builder()
+                .firstName(authRequestDTO.getFirstName())
+                .lastName(authRequestDTO.getLastName())
+                .email(authRequestDTO.getEmail())
+                .phone(authRequestDTO.getPhone())
+                .build();
+
+        personRepository.save(person);
+
+        User user = User.builder()
+                .username(authRequestDTO.getUsername())
+                .password(passwordEncoder.encode(authRequestDTO.getPassword()))
+                .person(person)
+                .build();
+
         userRepository.save(user);
+
         return true;
     }
 
@@ -49,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidCredentialsException();
         }
         return new AuthResponseDTO(
-                jwtService.generateToken(user.getUserId()));
+                jwtService.generateToken(user));
     }
 
 }

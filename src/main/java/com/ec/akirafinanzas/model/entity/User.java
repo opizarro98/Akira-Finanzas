@@ -20,6 +20,7 @@ import lombok.Setter;
 @Table(name = "users")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -35,4 +36,8 @@ public class User {
     private String password;
 
     private Boolean active = true;
+
+    @OneToOne(optional = false)
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 }
