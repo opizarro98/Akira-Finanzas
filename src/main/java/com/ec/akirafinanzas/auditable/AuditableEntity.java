@@ -1,4 +1,5 @@
 package com.ec.akirafinanzas.auditable;
+
 import java.time.LocalDateTime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -16,22 +17,17 @@ import jakarta.persistence.MappedSuperclass;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @Setter
-public abstract class Auditable {
+public abstract class AuditableEntity {
+
+    @Column(nullable = false)
+    private Boolean active = true;
 
     @CreationTimestamp
-    @Column(updatable = false, length = 25)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @CreatedBy
-    @Column(updatable = false, length = 25)
     private String createdBy;
-
-    @LastModifiedBy
     private String updatedBy;
-
-    @Column(nullable = false)
-    private Boolean active = true;
 }

@@ -1,20 +1,20 @@
-package com.ec.akirafinanzas.model.dto.category;
+package com.ec.akirafinanzas.model.dto.authapp;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpdateCategoryDTO {
+public class AuthRequestDTO {
 
-    private Long id;
     @NotBlank
-    private String name;
+    private String username;
+
+    @NotBlank
+    private String password;
 }

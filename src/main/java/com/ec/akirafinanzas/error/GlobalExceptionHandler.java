@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import io.jsonwebtoken.security.WeakKeyException;
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -49,6 +52,17 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors()
                 .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @ExceptionHandler(WeakKeyException.class)
+    public ResponseEntity<ApiErrorResponse> handleWeakKey(
+            WeakKeyException ex,
+            HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ApiErrorResponse(
+                        request.getRequestURI(),
+                        "JWT secret key is too weak. Contact system administrator.",
+                        HttpStatus.INTERNAL_SERVER_ERROR.value()));
     }
 
 }

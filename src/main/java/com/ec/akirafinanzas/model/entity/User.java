@@ -2,8 +2,6 @@ package com.ec.akirafinanzas.model.entity;
 
 import org.hibernate.annotations.Comment;
 
-import com.ec.akirafinanzas.auditable.Auditable;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,29 +17,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Table(name = "users")
-public class User extends Auditable {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
-    @Comment("Identificador del usuario")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, name = "username", length = 50)
-    @Comment("Nombre de usuario")
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false, name = "password", length = 100)
-    @Comment("Contraseña del usuario")
+    @Column(nullable = false)
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    private Person person;
+    private Boolean active = true;
 }

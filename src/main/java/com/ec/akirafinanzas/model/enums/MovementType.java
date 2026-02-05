@@ -1,6 +1,6 @@
 package com.ec.akirafinanzas.model.enums;
 
-public enum typeMovementEnum {
+public enum MovementType {
     INGRESO, // INGRESOS DE DINERO A LAS CUENTAS
     EGRESO, // SALIDAS DE DINERO DE LAS CUENTAS
     TRANSFERENCIA, // MOVIMIENTOS ENTRE CUENTAS
@@ -9,5 +9,8 @@ public enum typeMovementEnum {
     DEVOLUCION, // DEVOLUCIÓN DE DINERO A LA CUENTA
     INTERESES, // INTERESES GENERADOS
     AJUSTE, // AJUSTE DE SALDO
-    PAGO // PAGO DE PRODUCTOS O SERVICIOS
+    PAGO, // PAGO DE PRODUCTOS O SERVICIOS
+    INCOME,
+    EXPENSE,
+    TRANSFER
 }
