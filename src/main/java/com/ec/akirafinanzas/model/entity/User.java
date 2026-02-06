@@ -27,14 +27,18 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Comment("Unique identifier for the user")
     private Long userId;
 
     @Column(unique = true, nullable = false)
+    @Comment("Username for login")
     private String username;
 
     @Column(nullable = false)
+    @Comment("Password for login")
     private String password;
 
+    @Comment("Indicates if the user is active")
     private Boolean active = true;
 
     @OneToOne(optional = false)

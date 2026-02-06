@@ -1,7 +1,6 @@
 package com.ec.akirafinanzas.model.enums;
 
-public enum MovementType {
+public enum CategoryType {
     INCOME,
-    EXPENSE,
-    TRANSFER
+    EXPENSE
 }

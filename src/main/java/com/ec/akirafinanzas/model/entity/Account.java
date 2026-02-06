@@ -1,10 +1,11 @@
 package com.ec.akirafinanzas.model.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+
+import org.hibernate.annotations.Comment;
 
 import com.ec.akirafinanzas.auditable.AuditableEntity;
-import com.ec.akirafinanzas.model.enums.MovementType;
+import com.ec.akirafinanzas.model.enums.AccountType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,48 +25,33 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "movements")
+@Table(name = "accounts")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Movement extends AuditableEntity {
+public class Account extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long movementId;
+    @Comment("Unique identifier for the account")
+    private Long accountId;
+
+    @Column(nullable = false)
+    @Comment("Name of the account, e.g., Banco Pichincha, Efectivo, etc.")
+    private String name; // Banco Pichincha, Efectivo, etc.
+
+    @Column(nullable = false)
+    @Comment("Current balance of the account")
+    private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MovementType type;
+    @Comment("Type of the account, e.g., BANK, CASH, WALLET")
+    private AccountType type;
 
-    @Column(nullable = false, precision = 15, scale = 2)
-    private BigDecimal amount;
-
-    @Column(nullable = false)
-    private LocalDateTime movementDate;
-
-    private String description;
-
-    // Cuenta origen (EXPENSE, TRANSFER)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_account_id")
-    private Account sourceAccount;
-
-    // Cuenta destino (INCOME, TRANSFER)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "target_account_id")
-    private Account targetAccount;
-
-    // Dueño del movimiento
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
-
-    // Categoría del movimiento
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
 }

@@ -1,10 +1,7 @@
 package com.ec.akirafinanzas.model.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
 import com.ec.akirafinanzas.auditable.AuditableEntity;
-import com.ec.akirafinanzas.model.enums.MovementType;
+import com.ec.akirafinanzas.model.enums.CategoryType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -24,48 +21,26 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "movements")
+@Table(name = "categories")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Movement extends AuditableEntity {
+public class Category extends AuditableEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long movementId;
+    private Long categoryId;
+
+    @Column(nullable = false)
+    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MovementType type;
+    private CategoryType type;
 
-    @Column(nullable = false, precision = 15, scale = 2)
-    private BigDecimal amount;
-
-    @Column(nullable = false)
-    private LocalDateTime movementDate;
-
-    private String description;
-
-    // Cuenta origen (EXPENSE, TRANSFER)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_account_id")
-    private Account sourceAccount;
-
-    // Cuenta destino (INCOME, TRANSFER)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "target_account_id")
-    private Account targetAccount;
-
-    // Dueño del movimiento
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", nullable = false)
     private Person person;
-
-    // Categoría del movimiento
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
-
 }
