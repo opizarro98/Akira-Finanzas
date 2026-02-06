@@ -22,7 +22,8 @@ public class JwtService {
                                 .claim("userId", user.getUserId())
                                 .setIssuedAt(new Date())
                                 .setExpiration(
-                                                new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                                                new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Expira en
+                                                                                                            // 24 horas
                                 .signWith(Keys.hmacShaKeyFor(SECRET_KEY.getBytes()))
                                 .compact();
         }

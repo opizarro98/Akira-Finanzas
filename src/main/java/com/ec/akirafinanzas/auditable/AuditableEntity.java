@@ -23,9 +23,10 @@ public abstract class AuditableEntity {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(nullable = true)
     private String createdBy;
+
     private String updatedBy;
 }

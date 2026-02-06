@@ -22,14 +22,14 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @PostMapping
+    @PostMapping("createCategory")
     public ResponseEntity<CategoryResponseDTO> create(
             @RequestBody CreateCategoryRequestDTO dto) {
 
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
-    @GetMapping
+    @GetMapping("listCategories")
     public ResponseEntity<List<CategoryResponseDTO>> list() {
 
         return ResponseEntity.ok(categoryService.list());
