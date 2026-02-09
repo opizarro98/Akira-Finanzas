@@ -20,6 +20,7 @@ public class JwtService {
                 return Jwts.builder()
                                 .setSubject(user.getUsername())
                                 .claim("userId", user.getUserId())
+                                .claim("Name", user.getPerson().getFirstName())
                                 .setIssuedAt(new Date())
                                 .setExpiration(
                                                 new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // Expira en
