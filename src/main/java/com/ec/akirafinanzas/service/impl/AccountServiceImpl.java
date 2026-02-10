@@ -1,5 +1,7 @@
 package com.ec.akirafinanzas.service.impl;
 
+import java.util.List;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -19,35 +21,48 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
 
-    private final AccountRepository accountRepository;
-    private final UserRepository userRepository;
+        private final AccountRepository accountRepository;
+        private final UserRepository userRepository;
 
-    public AccountResponseDTO create(CreateAccountRequestDTO dto) {
+        public AccountResponseDTO create(CreateAccountRequestDTO dto) {
 
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+                String username = SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName();
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UnauthorizedException("User not found"));
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new UnauthorizedException("User not found"));
 
-        Person person = user.getPerson();
+                Person person = user.getPerson();
 
-        Account account = Account.builder()
-                .name(dto.getName())
-                .balance(dto.getInitialBalance())
-                .type(dto.getType())
-                .person(person)
-                .build();
+                Account account = Account.builder()
+                                .name(dto.getName())
+                                .balance(dto.getInitialBalance())
+                                .type(dto.getType())
+                                .person(person)
+                                .build();
 
-        accountRepository.save(account);
+                accountRepository.save(account);
 
-        return AccountResponseDTO.builder()
-                .accountId(account.getAccountId())
-                .name(account.getName())
-                .balance(account.getBalance())
-                .type(account.getType())
-                .build();
-    }
+                return AccountResponseDTO.builder()
+                                .accountId(account.getAccountId())
+                                .name(account.getName())
+                                .balance(account.getBalance())
+                                .type(account.getType())
+                                .build();
+        }
+
+        @Override
+        public List<AccountResponseDTO> getAllAccounts() {
+                List<Account> accounts = accountRepository.findAll();
+                return accounts.stream()
+                                .map(account -> AccountResponseDTO.builder()
+                                                .accountId(account.getAccountId())
+                                                .name(account.getName())
+                                                .balance(account.getBalance())
+                                                .type(account.getType())
+                                                .build())
+                                .toList();
+        }
 }

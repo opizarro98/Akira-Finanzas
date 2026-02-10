@@ -1,6 +1,9 @@
 package com.ec.akirafinanzas.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +27,10 @@ public class AccountController {
             @RequestBody CreateAccountRequestDTO createAccountRequestDTO) {
 
         return ResponseEntity.ok(accountService.create(createAccountRequestDTO));
+    }
+
+    @GetMapping("/getAllAccounts")
+    public ResponseEntity<List<AccountResponseDTO>> getAllAccounts() {
+        return ResponseEntity.ok(accountService.getAllAccounts());
     }
 }
