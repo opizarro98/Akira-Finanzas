@@ -24,7 +24,7 @@ public class AccountServiceImpl implements AccountService {
         private final AccountRepository accountRepository;
         private final UserRepository userRepository;
 
-        public AccountResponseDTO create(CreateAccountRequestDTO dto) {
+        public CreateAccountRequestDTO create(CreateAccountRequestDTO dto) {
 
                 String username = SecurityContextHolder
                                 .getContext()
@@ -45,6 +45,34 @@ public class AccountServiceImpl implements AccountService {
 
                 accountRepository.save(account);
 
+                return CreateAccountRequestDTO.builder()
+                                .name(account.getName())
+                                .initialBalance(account.getBalance())
+                                .type(account.getType())
+                                .build();
+        }
+
+        @Override
+        public List<AccountResponseDTO> getAllAccounts() {
+                List<Account> accounts = accountRepository.findByIsActiveTrue();
+                return accounts.stream()
+                                .map(account -> AccountResponseDTO.builder()
+                                                .accountId(account.getAccountId())
+                                                .name(account.getName())
+                                                .balance(account.getBalance())
+                                                .type(account.getType())
+                                                .build())
+                                .toList();
+        }
+
+        @Override
+        public AccountResponseDTO update(AccountResponseDTO dto) {
+                Account account = accountRepository.findById(dto.getAccountId())
+                                .orElseThrow(() -> new RuntimeException("Account not found"));
+                account.setName(dto.getName());
+                account.setType(dto.getType());
+                accountRepository.save(account);
+
                 return AccountResponseDTO.builder()
                                 .accountId(account.getAccountId())
                                 .name(account.getName())
@@ -54,15 +82,19 @@ public class AccountServiceImpl implements AccountService {
         }
 
         @Override
-        public List<AccountResponseDTO> getAllAccounts() {
-                List<Account> accounts = accountRepository.findAll();
+        public Boolean delete(Long accountId) {
+                Account account = accountRepository.findById(accountId)
+                                .orElseThrow(() -> new RuntimeException("Account not found"));
+                account.setActive(false);
+                accountRepository.save(account);
+                return true;
+        }
+
+        @Override
+        public Double getTotalBalance() {
+                List<Account> accounts = accountRepository.findByIsActiveTrue();
                 return accounts.stream()
-                                .map(account -> AccountResponseDTO.builder()
-                                                .accountId(account.getAccountId())
-                                                .name(account.getName())
-                                                .balance(account.getBalance())
-                                                .type(account.getType())
-                                                .build())
-                                .toList();
+                                .mapToDouble(account -> account.getBalance().doubleValue())
+                                .sum();
         }
 }

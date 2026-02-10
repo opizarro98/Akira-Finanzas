@@ -7,7 +7,13 @@ import com.ec.akirafinanzas.model.dto.account.CreateAccountRequestDTO;
 
 public interface AccountService {
 
-    public AccountResponseDTO create(CreateAccountRequestDTO dto);
+    public CreateAccountRequestDTO create(CreateAccountRequestDTO dto);
+
+    public AccountResponseDTO update(AccountResponseDTO dto);
 
     public List<AccountResponseDTO> getAllAccounts();
+
+    public Boolean delete(Long accountId);
+
+    public Double getTotalBalance();
 }
