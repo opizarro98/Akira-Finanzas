@@ -19,7 +19,6 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public BasicPersonalDataResponseDTO getPersonalData(Long data) {
-        System.out.println("+++++++++++++++++++++++++++++++++++++++ :" + data);
         Person findPerson = personRepository.findByPersonId(data);
 
         return personMapper.toEntityGet(findPerson);
