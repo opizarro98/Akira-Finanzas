@@ -5,10 +5,13 @@ import org.springframework.stereotype.Service;
 
 import com.ec.akirafinanzas.error.InvalidAuthDataException;
 import com.ec.akirafinanzas.error.InvalidCredentialsException;
+import com.ec.akirafinanzas.error.InvalidOldPasswordException;
+import com.ec.akirafinanzas.error.SamePasswordException;
 import com.ec.akirafinanzas.error.UserAlreadyExistsException;
 import com.ec.akirafinanzas.model.dto.authapp.AuthRequestDTO;
 import com.ec.akirafinanzas.model.dto.authapp.AuthResponseDTO;
 import com.ec.akirafinanzas.model.dto.authapp.RegisterRequestDTO;
+import com.ec.akirafinanzas.model.dto.authapp.UpdatePassRequestDTO;
 import com.ec.akirafinanzas.model.entity.Person;
 import com.ec.akirafinanzas.model.entity.User;
 import com.ec.akirafinanzas.repository.PersonRepository;
@@ -67,6 +70,23 @@ public class AuthServiceImpl implements AuthService {
         }
         return new AuthResponseDTO(
                 jwtService.generateToken(user));
+    }
+
+    @Override
+    public boolean updatePassword(UpdatePassRequestDTO authRequestDTO) {
+        User user = userRepository.findByUsername(authRequestDTO.getUsername())
+                .orElseThrow(() -> new InvalidCredentialsException());
+        if (!passwordEncoder.matches(authRequestDTO.getOldPassword(), user.getPassword())) {
+            throw new InvalidOldPasswordException("The previous password does not match");
+        }
+
+        if (passwordEncoder.matches(authRequestDTO.getNewPassword(), user.getPassword())) {
+            throw new SamePasswordException("The password cannot be the same as the previous one. ");
+        }
+
+        user.setPassword(passwordEncoder.encode(authRequestDTO.getNewPassword()));
+        userRepository.save(user);
+        return true;
     }
 
 }

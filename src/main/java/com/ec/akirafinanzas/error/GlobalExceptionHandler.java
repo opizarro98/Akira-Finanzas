@@ -106,7 +106,32 @@ public class GlobalExceptionHandler {
                                 .body(new ApiErrorResponse(
                                                 request.getRequestURI(),
                                                 ex.getMessage(),
+                                                "UNAUTHORIZED",
                                                 HttpStatus.UNAUTHORIZED.value()));
+        }
+
+        @ExceptionHandler(InvalidOldPasswordException.class)
+        public ResponseEntity<ApiErrorResponse> handleInvalidOldPassword(
+                        InvalidOldPasswordException ex,
+                        HttpServletRequest request) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(new ApiErrorResponse(
+                                                request.getRequestURI(),
+                                                ex.getMessage(),
+                                                "INVALID_OLD_PASSWORD",
+                                                HttpStatus.BAD_REQUEST.value()));
+        }
+
+        @ExceptionHandler(SamePasswordException.class)
+        public ResponseEntity<ApiErrorResponse> handleSamePassword(
+                        SamePasswordException ex,
+                        HttpServletRequest request) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                .body(new ApiErrorResponse(
+                                                request.getRequestURI(),
+                                                ex.getMessage(),
+                                                "SAME_PASSWORD",
+                                                HttpStatus.BAD_REQUEST.value()));
         }
 
 }

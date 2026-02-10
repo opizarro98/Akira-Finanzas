@@ -11,12 +11,21 @@ public class ApiErrorResponse {
 
     private String endpoint;
     private String message;
+    private String code;
     private LocalDateTime timestamp;
     private int statusCode;
 
     public ApiErrorResponse(String endpoint, String message, int statusCode) {
         this.endpoint = endpoint;
         this.message = message;
+        this.timestamp = LocalDateTime.now();
+        this.statusCode = statusCode;
+    }
+
+    public ApiErrorResponse(String endpoint, String message, String code, int statusCode) {
+        this.endpoint = endpoint;
+        this.message = message;
+        this.code = code;
         this.timestamp = LocalDateTime.now();
         this.statusCode = statusCode;
     }
