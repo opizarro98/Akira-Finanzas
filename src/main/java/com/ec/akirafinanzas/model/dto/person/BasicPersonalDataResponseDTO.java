@@ -12,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class BasicPersonalDataResponseDTO {
-    private Long personId;
     private String firstName;
     private String middleName;
     private String lastName;

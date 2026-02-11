@@ -4,5 +4,7 @@ import com.ec.akirafinanzas.model.dto.person.BasicPersonalDataResponseDTO;
 
 public interface PersonService {
 
-    public BasicPersonalDataResponseDTO getPersonalData(Long data);
+    public BasicPersonalDataResponseDTO getPersonalData();
+
+    public Boolean updatePersonalData(BasicPersonalDataResponseDTO data);
 }

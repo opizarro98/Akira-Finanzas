@@ -10,7 +10,6 @@ public class PersonMapper {
 
     public BasicPersonalDataResponseDTO toEntityGet(Person person) {
         return BasicPersonalDataResponseDTO.builder()
-                .personId(person.getPersonId())
                 .firstName(person.getFirstName())
                 .middleName(person.getMiddleName())
                 .lastName(person.getLastName())

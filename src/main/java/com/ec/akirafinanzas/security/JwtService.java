@@ -19,7 +19,7 @@ public class JwtService {
 
                 return Jwts.builder()
                                 .setSubject(user.getUsername())
-                                .claim("userId", user.getUserId())
+                                .claim("personId", user.getPerson().getPersonId())
                                 .claim("Name", user.getPerson().getFirstName())
                                 .setIssuedAt(new Date())
                                 .setExpiration(

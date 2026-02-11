@@ -2,7 +2,8 @@ package com.ec.akirafinanzas.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,8 +19,13 @@ public class PersonController {
 
     private final PersonService personService;
 
-    @GetMapping("personalData/{personid}")
-    public ResponseEntity<BasicPersonalDataResponseDTO> getPersonaData(@PathVariable Long personid) {
-        return ResponseEntity.ok(personService.getPersonalData(personid));
+    @GetMapping("personalData")
+    public ResponseEntity<BasicPersonalDataResponseDTO> getPersonaData() {
+        return ResponseEntity.ok(personService.getPersonalData());
+    }
+
+    @PutMapping("UpdatePersonalData")
+    public ResponseEntity<Boolean> updatePersonalData(@RequestBody BasicPersonalDataResponseDTO data) {
+        return ResponseEntity.ok(personService.updatePersonalData(data));
     }
 }
