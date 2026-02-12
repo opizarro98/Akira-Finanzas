@@ -1,5 +1,7 @@
 package com.ec.akirafinanzas.service.AuthService.impl;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -74,7 +76,12 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean updatePassword(UpdatePassRequestDTO authRequestDTO) {
-        User user = userRepository.findByUsername(authRequestDTO.getUsername())
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        String username = authentication.getName();
+
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new InvalidCredentialsException());
         if (!passwordEncoder.matches(authRequestDTO.getOldPassword(), user.getPassword())) {
             throw new InvalidOldPasswordException("The previous password does not match");
@@ -86,6 +93,22 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(authRequestDTO.getNewPassword()));
         userRepository.save(user);
+        return true;
+    }
+
+    @Override
+    public boolean validPassword(String password) {
+        Authentication authentication = SecurityContextHolder
+                .getContext()
+                .getAuthentication();
+        String username = authentication.getName();
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new InvalidCredentialsException());
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new InvalidOldPasswordException("The previous password is incorrect");
+        }
+
         return true;
     }
 

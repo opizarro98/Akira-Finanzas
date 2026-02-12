@@ -12,4 +12,6 @@ public interface AuthService {
     public AuthResponseDTO login(AuthRequestDTO authRequestDTO);
 
     public boolean updatePassword(UpdatePassRequestDTO authRequestDTO);
+
+    public boolean validPassword(String password);
 }

@@ -12,9 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UpdatePassRequestDTO {
     @NotBlank
-    private String username;
-
-    @NotBlank
     private String oldPassword;
 
     @NotBlank
