@@ -136,13 +136,13 @@ public class GlobalExceptionHandler {
 
         @ExceptionHandler(ResourceNotFoundException.class)
         public ResponseEntity<ApiErrorResponse> resourceNotFound(
-                        SamePasswordException ex,
+                        ResourceNotFoundException ex,
                         HttpServletRequest request) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                                 .body(new ApiErrorResponse(
                                                 request.getRequestURI(),
                                                 ex.getMessage(),
-                                                "PERSON_NOT_FOUND",
+                                                "NOT_FOUND",
                                                 HttpStatus.BAD_REQUEST.value()));
         }
 }

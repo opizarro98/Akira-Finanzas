@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.ec.akirafinanzas.error.ResourceNotFoundException;
 import com.ec.akirafinanzas.error.UnauthorizedException;
 import com.ec.akirafinanzas.model.dto.category.CategoryResponseDTO;
 import com.ec.akirafinanzas.model.dto.category.CreateCategoryRequestDTO;
+import com.ec.akirafinanzas.model.dto.category.UpdateCategoryRequestDTO;
 import com.ec.akirafinanzas.model.entity.Category;
 import com.ec.akirafinanzas.model.entity.Person;
 import com.ec.akirafinanzas.model.entity.User;
@@ -24,51 +26,65 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
-    private final CategoryMapper categoryMapper;
+        private final CategoryRepository categoryRepository;
+        private final UserRepository userRepository;
+        private final CategoryMapper categoryMapper;
 
-    public CategoryResponseDTO create(CreateCategoryRequestDTO dto) {
+        public CategoryResponseDTO create(CreateCategoryRequestDTO dto) {
 
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+                String username = SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName();
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UnauthorizedException("User not found"));
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new UnauthorizedException("User not found"));
 
-        Person person = user.getPerson();
+                Person person = user.getPerson();
 
-        boolean exists = categoryRepository.existsByNameAndPerson(dto.getName(), person);
+                boolean exists = categoryRepository.existsByNameAndPerson(dto.getName(), person);
 
-        if (exists) {
-            throw new RuntimeException("Category already exists");
+                if (exists) {
+                        throw new RuntimeException("Category already exists");
+                }
+
+                Category category = categoryMapper.toEntity(dto, person);
+
+                categoryRepository.save(category);
+
+                return categoryMapper.toResponse(category);
         }
 
-        Category category = categoryMapper.toEntity(dto, person);
+        @Override
+        public List<CategoryResponseDTO> list() {
+                String username = SecurityContextHolder
+                                .getContext()
+                                .getAuthentication()
+                                .getName();
 
-        categoryRepository.save(category);
+                User user = userRepository.findByUsername(username)
+                                .orElseThrow(() -> new UnauthorizedException("User not found"));
 
-        return categoryMapper.toResponse(category);
-    }
+                Person person = user.getPerson();
 
-    @Override
-    public List<CategoryResponseDTO> list() {
-        String username = SecurityContextHolder
-                .getContext()
-                .getAuthentication()
-                .getName();
+                List<Category> categories = categoryRepository.findByPerson(person);
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UnauthorizedException("User not found"));
+                return categories.stream()
+                                .map(categoryMapper::toResponse)
+                                .toList();
+        }
 
-        Person person = user.getPerson();
+        @Override
+        public Boolean update(UpdateCategoryRequestDTO data) {
+                Category updateCategory = categoryRepository.findByIdCategory(data.getCategoryId());
+                System.out.println("+++++++++++++++++++ id_category is: " + data.getCategoryId());
+                if (updateCategory == null) {
+                        throw new ResourceNotFoundException("Category not found");
+                }
+                updateCategory.setName(data.getName());
+                updateCategory.setType(data.getType());
+                categoryRepository.save(updateCategory);
+                return true;
 
-        List<Category> categories = categoryRepository.findByPerson(person);
-
-        return categories.stream()
-                .map(categoryMapper::toResponse)
-                .toList();
-    }
+        }
 }

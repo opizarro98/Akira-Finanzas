@@ -2,15 +2,20 @@ package com.ec.akirafinanzas.controller;
 
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.BlockElement;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ec.akirafinanzas.model.dto.category.CategoryResponseDTO;
 import com.ec.akirafinanzas.model.dto.category.CreateCategoryRequestDTO;
+import com.ec.akirafinanzas.model.dto.category.UpdateCategoryRequestDTO;
 import com.ec.akirafinanzas.service.CategoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,9 +34,13 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.create(dto));
     }
 
+    @PutMapping("/updateCategory")
+    public ResponseEntity<Boolean> updateCategory(@RequestBody UpdateCategoryRequestDTO data) {
+        return ResponseEntity.ok(categoryService.update(data));
+    }
+
     @GetMapping("listCategories")
     public ResponseEntity<List<CategoryResponseDTO>> list() {
-
         return ResponseEntity.ok(categoryService.list());
     }
 }
