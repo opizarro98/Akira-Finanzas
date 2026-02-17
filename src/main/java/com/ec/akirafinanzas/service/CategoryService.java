@@ -13,4 +13,6 @@ public interface CategoryService {
     public Boolean update(UpdateCategoryRequestDTO data);
 
     public List<CategoryResponseDTO> list();
+
+    public Boolean delete(Long categoryId);
 }

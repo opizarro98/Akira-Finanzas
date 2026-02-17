@@ -87,4 +87,15 @@ public class CategoryServiceImpl implements CategoryService {
                 return true;
 
         }
+
+        @Override
+        public Boolean delete(Long categoryId) {
+                Category updateCategory = categoryRepository.findByIdCategory(categoryId);
+                if (updateCategory == null) {
+                        throw new ResourceNotFoundException("Category not found");
+                }
+                updateCategory.setActive(false);
+                categoryRepository.save(updateCategory);
+                return true;
+        }
 }

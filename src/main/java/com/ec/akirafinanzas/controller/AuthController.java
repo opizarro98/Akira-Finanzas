@@ -13,7 +13,6 @@ import com.ec.akirafinanzas.model.dto.authapp.AuthResponseDTO;
 import com.ec.akirafinanzas.model.dto.authapp.RegisterRequestDTO;
 import com.ec.akirafinanzas.model.dto.authapp.UpdatePassRequestDTO;
 import com.ec.akirafinanzas.service.AuthService.AuthService;
-import com.fasterxml.jackson.databind.node.BooleanNode;
 
 import lombok.RequiredArgsConstructor;
 

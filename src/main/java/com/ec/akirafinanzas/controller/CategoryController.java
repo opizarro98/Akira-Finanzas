@@ -2,8 +2,6 @@ package com.ec.akirafinanzas.controller;
 
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.BlockElement;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,5 +40,10 @@ public class CategoryController {
     @GetMapping("listCategories")
     public ResponseEntity<List<CategoryResponseDTO>> list() {
         return ResponseEntity.ok(categoryService.list());
+    }
+
+    @PostMapping("/deleteCategory/{categoryId}")
+    public ResponseEntity<Boolean> delete(@PathVariable Long categoryId) {
+        return ResponseEntity.ok(categoryService.delete(categoryId));
     }
 }
