@@ -26,4 +26,7 @@ public class MovementResponseDTO {
 
     private Long sourceAccountId;
     private Long targetAccountId;
+
+    private String sourceAccountName;
+    private String targetAccountName;
 }
