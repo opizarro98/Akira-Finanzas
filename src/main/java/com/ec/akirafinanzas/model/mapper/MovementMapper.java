@@ -1,5 +1,6 @@
 package com.ec.akirafinanzas.model.mapper;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
@@ -16,11 +17,13 @@ public class MovementMapper {
         public Movement toEntity(CreateMovementRequestDTO dto,
                         Person person,
                         Account source,
-                        Account target) {
+                        Account target,
+                        BigDecimal balanceAfter) {
 
                 return Movement.builder()
                                 .type(dto.getType())
                                 .amount(dto.getAmount())
+                                .balanceAfter(balanceAfter)
                                 .description(dto.getDescription())
                                 .movementDate(LocalDateTime.now())
                                 .sourceAccount(source)
@@ -35,6 +38,7 @@ public class MovementMapper {
                                 .movementId(movement.getMovementId())
                                 .type(movement.getType())
                                 .amount(movement.getAmount())
+                                .balanceAfter(movement.getBalanceAfter())
                                 .description(movement.getDescription())
                                 .movementDate(movement.getMovementDate())
                                 .sourceAccountId(

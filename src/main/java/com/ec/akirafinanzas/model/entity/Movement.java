@@ -43,6 +43,9 @@ public class Movement extends AuditableEntity {
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal amount;
 
+    @Column(precision = 15, scale = 2)
+    private BigDecimal balanceAfter;
+
     @Column(nullable = false)
     private LocalDateTime movementDate;
 

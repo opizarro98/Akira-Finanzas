@@ -53,6 +53,7 @@ public class MovementServiceImpl implements MovementService {
                 // 4️⃣ Crear movimiento
                 Account source = null;
                 Account target = null;
+                BigDecimal balanceAfter = null;
                 if (dto.getSourceAccountId() != null) {
                         source = accountRepository.findById(dto.getSourceAccountId())
                                         .orElseThrow(() -> new RuntimeException("Source account not found"));
@@ -72,8 +73,9 @@ public class MovementServiceImpl implements MovementService {
                                 if (target == null)
                                         throw new RuntimeException("Income requires target account");
 
-                                target.setBalance(
-                                                target.getBalance().add(dto.getAmount()));
+                                balanceAfter = target.getBalance().add(dto.getAmount());
+                                target.setBalance(balanceAfter);
+
                         }
 
                         case EXPENSE -> {
@@ -82,8 +84,8 @@ public class MovementServiceImpl implements MovementService {
 
                                 validateBalance(source, dto.getAmount());
 
-                                source.setBalance(
-                                                source.getBalance().subtract(dto.getAmount()));
+                                balanceAfter = source.getBalance().subtract(dto.getAmount());
+                                source.setBalance(balanceAfter);
                         }
 
                         case TRANSFER -> {
@@ -95,8 +97,8 @@ public class MovementServiceImpl implements MovementService {
 
                                 validateBalance(source, dto.getAmount());
 
-                                source.setBalance(
-                                                source.getBalance().subtract(dto.getAmount()));
+                                balanceAfter = source.getBalance().subtract(dto.getAmount());
+                                source.setBalance(balanceAfter);
 
                                 target.setBalance(
                                                 target.getBalance().add(dto.getAmount()));
@@ -104,7 +106,7 @@ public class MovementServiceImpl implements MovementService {
                 }
 
                 Movement movement = movementMapper.toEntity(
-                                dto, person, source, target);
+                                dto, person, source, target, balanceAfter);
 
                 if (dto.getCategoryId() != null) {
 

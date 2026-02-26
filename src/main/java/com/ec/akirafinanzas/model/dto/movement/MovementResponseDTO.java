@@ -21,6 +21,7 @@ public class MovementResponseDTO {
     private Long movementId;
     private MovementType type;
     private BigDecimal amount;
+    private BigDecimal balanceAfter;
     private String description;
     private LocalDateTime movementDate;
 
